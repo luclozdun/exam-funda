@@ -6,7 +6,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/replavigame/replavigame-api.git
+          uri: https://github.com/luclozdun/exam-funda
           searchPaths: config-data
           user-name: ${GIT_USER}
           password: ${GIT_PASSWORD}
