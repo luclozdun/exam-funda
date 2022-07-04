@@ -1,61 +1,50 @@
 server:
-  port: 8093
+  port: 8092
+
+spring:
+  h2:
+    console:
+      enabled: true
+
+  #DB
+  datasource:
+    url: jdbc:h2:mem:userDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    platform: h2
+    username: sa
+    password:
+
+  #JPA
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: false
+        format_sql: false
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8099/eureka/
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: guide-service
-          uri: lb://guide-service
-          predicates:
-            - Path=/guides/**, /categories/**
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/users/**
-        - id: order-guide-service
-          uri: lb://order-guide-service
-          predicates:
-            - Path=/order-detail-guides/**, /order-guides/**
-        - id: order-game-coin-service
-          uri: lb://order-game-coin-service
-          predicates:
-            - Path=/order-detail-game-coins/**, /order-game-coins/**
-        - id: game-service
-          uri: lb://game-service
-          predicates:
-            - Path=/games/**
-        - id: game-coin-service
-          uri: lb://game-coin-service
-          predicates:
-            - Path=/game-coin-offers/**
-        - id: detail-guide-service
-          uri: lb://detail-guide-service
-          predicates:
-            - Path=/detail-guides/**
-        - id: coaching-session-service
-          uri: lb://coaching-session-service
-          predicates:
-            - Path=/platforms/**, /sessions/**
-        - id: coach-service
-          uri: lb://coach-service
-          predicates:
-            - Path=/coaches/**
-        - id: coach-report-service
-          uri: lb://coach-report-service
-          predicates:
-            - Path=/coach-documents/**, /coach-reports/**
-        - id: checkout-service
-          uri: lb://checkout-service
-          predicates:
-            - Path=/detail-cards/**, /payments/**
-        - id: capture-service
-          uri: lb://capture-service
-          predicates:
-            - Path=/captures/**
+
+Feign:
+  circuitbreaker:
+    enabled: true
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

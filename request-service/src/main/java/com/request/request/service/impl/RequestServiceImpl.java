@@ -1,14 +1,17 @@
 package com.request.request.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.request.exception.ResourceNotFoundExceptionRequest;
 import com.request.request.client.HotelClient;
 import com.request.request.dto.HotelRequest;
+import com.request.request.dto.HotelRequestForList;
 import com.request.request.dto.RequestRequest;
 import com.request.request.dto.RequestResponse;
 import com.request.request.entity.Request;
+import com.request.request.model.Hotel;
 import com.request.request.repository.RequestRepository;
 import com.request.request.service.RequestService;
 
@@ -55,6 +58,7 @@ public class RequestServiceImpl implements RequestService {
         sol.setDetail(request.getDetail());
 
         var hotels = request.getHotels();
+        List<Hotel> hs = new ArrayList<Hotel>();
 
         try {
             requestRepository.save(sol);
@@ -63,13 +67,22 @@ public class RequestServiceImpl implements RequestService {
         }
 
         for (HotelRequest hotel : hotels) {
-            hotelClient.create(hotel);
+            HotelRequestForList h = new HotelRequestForList();
+            h.setEmployeeId(request.getEmployeeId());
+            h.setName(hotel.getName());
+            h.setPrice(hotel.getPrice());
+            h.setRequestId(sol.getId());
+            var he = hotelClient.create(h).getBody();
+            if (he.getId() == null || he.getId() == 0L) {
+                throw new ResourceNotFoundExceptionRequest("Error Client");
+            }
+            hs.add(he);
         }
 
         RequestResponse response = new RequestResponse();
         response.setDetail(request.getDetail());
         response.setEmployeeId(request.getEmployeeId());
-        response.setHotels(request.getHotels());
+        response.setHotels(hs);
         response.setId(sol.getId());
 
         return response;

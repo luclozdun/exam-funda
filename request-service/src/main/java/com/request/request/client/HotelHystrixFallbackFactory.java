@@ -1,10 +1,12 @@
 package com.request.request.client;
 
-import com.request.request.dto.HotelRequest;
+import com.request.request.dto.HotelRequestForList;
 import com.request.request.model.Hotel;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HotelHystrixFallbackFactory implements HotelClient {
 
     @Override
@@ -19,7 +21,7 @@ public class HotelHystrixFallbackFactory implements HotelClient {
     }
 
     @Override
-    public ResponseEntity<Hotel> create(HotelRequest request) {
+    public ResponseEntity<Hotel> create(HotelRequestForList request) {
         // TODO Auto-generated method stub
         return null;
     }

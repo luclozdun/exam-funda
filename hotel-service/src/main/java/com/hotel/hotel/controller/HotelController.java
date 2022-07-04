@@ -1,10 +1,10 @@
-package com.guide.guides.controller;
+package com.hotel.hotel.controller;
 
 import java.util.List;
 
-import com.guide.guides.dto.CategoryRequest;
-import com.guide.guides.dto.CategoryResponse;
-import com.guide.guides.service.CategoryService;
+import com.hotel.hotel.dto.HotelRequest;
+import com.hotel.hotel.dto.HotelResponse;
+import com.hotel.hotel.service.HotelService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,45 +19,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoryController {
+@RequestMapping("/hotels")
+public class HotelController {
 
     @Autowired
-    private CategoryService categoryService;
+    private HotelService gameService;
 
     @GetMapping
-    private ResponseEntity<List<CategoryResponse>> getAll() {
-        var response = categoryService.getAll();
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping("/game/{id}")
-    private ResponseEntity<List<CategoryResponse>> getAllByGameID(@PathVariable("id") Long id) {
-        var response = categoryService.getAllByGameId(id);
+    private ResponseEntity<List<HotelResponse>> getAll() {
+        var response = gameService.getAll();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<CategoryResponse> getById(@PathVariable("id") Long id) {
-        var response = categoryService.getById(id);
+    private ResponseEntity<HotelResponse> getById(@PathVariable("id") Long id) {
+        var response = gameService.getById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
-    private ResponseEntity<CategoryResponse> create(@RequestBody CategoryRequest request) {
-        var response = categoryService.create(request);
+    private ResponseEntity<HotelResponse> create(@RequestBody HotelRequest request) {
+        var response = gameService.create(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<CategoryResponse> update(@RequestBody CategoryRequest request, @PathVariable("id") Long id) {
-        var response = categoryService.update(request, id);
+    private ResponseEntity<HotelResponse> getById(@RequestBody HotelRequest request, @PathVariable("id") Long id) {
+        var response = gameService.update(request, id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     private ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        categoryService.delete(id);
+        gameService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
