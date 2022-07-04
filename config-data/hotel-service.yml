@@ -1,11 +1,11 @@
 server:
-  port: 8098
+  port: 8091
 
 spring:
   h2:
     console:
       enabled: true
-      
+
   #DB
   datasource:
     url: jdbc:h2:mem:userDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
@@ -41,10 +41,10 @@ Feign:
 
 hystrix:
   dashboard:
-    proxy-stream-allow-list: '*'
+    proxy-stream-allow-list: "*"
 
 management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: "*"
